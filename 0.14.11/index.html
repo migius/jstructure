@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="it" xmlns:ng="http://angularjs.org" id="ng-app" class="altoTutto" ng-app>
+   <head>
+      <meta charset="utf-8">
+      <title>JStructure</title>
+    <meta property="og:image" content="http://jstructure.altervista.org/img/Logo.png"/>
+    <meta property="og:url" content="http://jstructure.altervista.org/"/>
+    <meta property="og:title" content="JStructure"/>
+
+
+
+      <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+      <!--http://codeseven.github.io/toastr/-->
+      <link rel="stylesheet" href="css/toastr.min.css"/>
+      <link rel="stylesheet" href="css/app.min.css"/>
+      <!-- In production use:-->
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.3/angular.min.js"></script>
+      
+      <!--<script src="js/libs/angular.min.js"></script>-->
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57150936-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+   </head>
+
+
+   <body ng-app="JStructure" ng-controller="Controller" id="pagina" class="altoTutto">
+
+      <div id="divLoading" >
+
+         <p id="pCaricamento">
+<!--Loading circle-->
+<img src="data:image/gif;base64,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"/>
+
+       <!-- chrome dinosaur 
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAACVBMVEVTU1P///9TU1P8g2f9AAAAAnRSTlMAAHaTzTgAAAB0SURBVHhe1dMxCgMxDAXRIaVOkXrvs/f79ZwyEGNITKwUgcBOZR4upEKcSxeCmSrAFko1r5Cv4J8A6EGzgwLQQAdHD5ljbUFU08Gz8AOwgWX1HlBNC6WyBVWMOBpq5C2pz3ALUIGsP1ZAKtznmxoAAtc5wgegV/QjpyQHeQAAAABJRU5ErkJggg=="></img>-->
+         <br/>
+            Loading...</p><!-- frase non traducibile con JS perché carica dopo-->
+
+      </div>
+      <div class="altoTutto blur" id="mainDiv" >
+         <div id="metaInput" class="col-md-4 altoTutto">
+            <div class="altoTutto">
+               <ul id="myTab" class="nav nav-tabs">
+                  <li ><a href="#home" data-toggle="tab" class="tab_immagine ">
+<img src="img/Logo_NOScritta_Icona.png" alt="JStructure"/>
+                  </a></li>
+                  <li class="dropdown " >
+                     <a href="#" id="DropGeometria" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-info-sign" > {{T.Geometria}} <b class="caret"></b></a>
+                     <ul class="dropdown-menu" role="menu" aria-labelledby="Geometria">
+                        <li ><a href="#nodi" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-record" > {{T.Nodi}}</a></li>
+                        <li><a href="#materiali" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-tree-conifer" > {{T.Materiali}}</a></li>
+                        <li><a href="#sezioni" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-stop" > {{T.Sezioni}}</a></li>
+                        <li><a href="#aste" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-minus" > {{T.Aste}}</a></li>
+                     </ul>
+                  </li>
+                  <li class="dropdown">
+                     <a href="#" id="DropVincoli" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-exclamation-sign" > {{T.Condizioni}} <b class="caret"></b></a>
+                     <ul class="dropdown-menu" role="menu" aria-labelledby="Vincoli">
+                        <li><a href="#vincoli" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-pushpin" > {{T.Vincolirigidi}}</a></li>
+                        <li><a href="#asservimenti" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-resize-small" > {{T.Asservimenti}}</a></li>
+                        <li><a href="#nodali" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-arrow-down" > {{T.Carichinodali}}</a></li>
+                        <li><a href="#distribuiti" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-signal" > {{T.Carichidistribuiti}}</a></li>
+                        <li><a href="#termici" tabindex="-1" data-toggle="tab"><span class="glyphicon glyphicon-fire" > {{T.Carichitermici}}</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="#salvaCarica" data-toggle="tab" data-toggle="tooltip" title="{{T.ImportaEsporta}}"><span class="glyphicon glyphicon-cog" ></span></a></li>
+               </ul>
+               <div id="myTabContent" class="tab-content alto90">
+                  <div class="tab-pane fade in active" id="home">
+                     <div id="home_info">
+                     <h1 class="bluLogo">JStructure</h1>
+                     <h4>A JavaScript Structure Solver</h4>
+                     <h5>{{T.Version}}</h5><br/>
+                     <p>
+                        {{T.Intro}}
+                        <br/><br/>
+                        {{T.visita}}                        
+                         <br/><br/>
+                        <a href="https://jstructure.wordpress.com/" class="btn btn-default btn-lg" role="button" target="_blank">
+                        <img src="img/Logo_NOScritta_Icona.png" alt="JStructure"/>   JStructure</a>
+                        <br/>
+
+
+                     </p><br/><br/>
+     </div>
+
+   <!-- rallentano molto il caricamento, valutare se metterli o no oppure usare l'async
+<div id="bottoniSocial"><br/><br/>
+                
+
+<a href="https://twitter.com/brunimichele" class="twitter-follow-button" data-show-count="false">Follow @brunimichele</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://jstructure.wordpress.com/" data-via="brunimichele" data-lang="en" data-hashtags="JStructure">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<br/><br/>
+
+            <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&appId=459675797477551&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+    <div class="fb-like" 
+    data-href="https://www.facebook.com/pages/JStructure/361521037349535" 
+    data-layout="standard" 
+    data-action="like" 
+    data-show-faces="true" 
+    data-share="true"
+    data-width="300"></div>
+    <br/><br/><br/><br/>
+                     
+</div>
+-->
+                  </div>
+                  <div class="tab-pane fade in " id="nodi">
+                     <h2>{{T.Nodi}}</h2>
+                     <!-- TODO: gestire eliminazione
+                     TODO: gestire modifica nodi -->
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>{{T.CoordinataX}}</th>
+                              <th>{{T.CoordinataY}}</th>
+                              <th></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="nodo in problema.elencoNodi">
+                                 <td id="idNodo{{ nodo.Id }}">{{ nodo.Id }}</td>
+                                 <td id="xNodo{{ nodo.Id }}">{{ nodo.Punto.CoorX }}</td>
+                                 <td id="yNodo{{ nodo.Id }}">{{ nodo.Punto.CoorY }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editNodo(nodo.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delNodo(nodo.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-warning undoBtn nascosto"  ng-click="undoEditNodo(nodo.Id)"  data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-success saveBtn nascosto"  ng-click="saveEditNodo(nodo.Id)" data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+
+                                 </td>
+                              </tr>
+                              <tr class="info" >
+                                 <form id="inserimentoNodo" ng-submit="addNodo()">
+                                    <td></td>
+                                    <td>
+                                       <input id="nodoXcoor" type="number" ng-model="In.Nodo.Punto.CoorX" step="any" class="form-control " required />
+                                    </td>
+                                    <td><input id="nodoYcoor" type="number" ng-model="In.Nodo.Punto.CoorY" step="any" class="form-control" required/></td>
+                                    <td><button type="submit" class="btn  btn-primary" data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button></td>
+                                 </form>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="tab-pane fade" id="materiali">
+                        <h2>{{T.Materiali}}</h2>
+                        <!-- TODO: gestire eliminazione
+                        TODO: gestire modifica nodi
+                        TODO: inserire toolbox con info variabili
+                        TODO: validazione regex logiche dei campi
+                        TODO: colopicker per la grafica -->
+                        <table class="table table-striped table-hover" >
+                           <thead>
+                              <tr>
+                                 <th></th>
+                                 <th>E</th>
+                                 <th>&nu;</th>
+                                 <th>&alpha;<sub>T</sub></th>
+                                 <th>&gamma;</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="materiale in problema.elencoMateriali">
+                                 <td id="idMateriale{{ materiale.Id }}">{{ materiale.Id }} - {{ materiale.Nome }}</td>
+                                 <td>{{ materiale.ModuloYoung }}</td>
+                                 <td>{{ materiale.ModuloPoisson }}</td>
+                                 <td>{{ materiale.CoeffDilatazioneTerm }}</td>
+                                 <td>{{ materiale.PesoSpecifico }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editMateriale(materiale.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delMateriale(materiale.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoMateriale"  ng-submit="addMateriale()" class="form-horizontal">
+                           <div id="IdGruopMateriale" class="form-group nascosto">
+                              <label for="IdMateriale" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdMateriale" type="text" ng-model="In.Materiale.Id" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="NomeMateriale" class="control-label col-sm-2" >{{T.Nome}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="NomeMateriale" type="text" ng-model="In.Materiale.Nome" class="form-control input-sm"  placeholder="{{T.Nome}}" required maxlength="100"/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="E" class="control-label col-sm-2">E</label>
+                              <div class ="col-sm-10">
+                                 <input id="E" type="number" ng-model="In.Materiale.ModuloYoung" class="form-control input-sm"  step="any" placeholder="{{T.ModuloYoung}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nu" class="control-label col-sm-2">&nu;</label>
+                              <div class ="col-sm-10">
+                                 <input id="nu" type="number" ng-model="In.Materiale.ModuloPoisson" class="form-control input-sm"  step="any" placeholder="{{T.ModuloPoisson}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="alfa" class="control-label col-sm-2">&alpha;<sub>T</sub></label>
+                              <div class ="col-sm-10">
+                                 <input id="alfa" type="number" ng-model="In.Materiale.CoeffDilatazioneTerm" class="form-control input-sm"  step="any" placeholder="{{T.CoefficienteDilTermica}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="gamma" class="control-label col-sm-2">&gamma;</label>
+                              <div class ="col-sm-10">
+                                 <input id="gamma" type="number" ng-model="In.Materiale.PesoSpecifico" class="form-control input-sm"  step="any" placeholder="{{T.PesoSpecifico}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-2 col-sm-10">
+                                 <button type="submit" class="btn  btn-primary addBtn" data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditMateriale()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="sezioni">
+                        <h2>{{T.Sezioni}}</h2>
+                        <!-- TODO: gestire eliminazione
+                        TODO: gestire modifica nodi
+                        TODO: inserire toolbox con info variabili
+                        TODO: validazione regex logiche dei campi -->
+                        <table class="table table-striped table-hover">
+                           <thead>
+                              <tr>
+                                 <th></th>
+                                 <th>A</th>
+                                 <th>I</th>
+                                 <th>h</th>
+                                 <th>&chi;</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="sezione in problema.elencoSezioni">
+                                 <td id="idSezione{{ sezione.Id }}">{{ sezione.Id }} - {{ sezione.Nome }}</td>
+                                 <td>{{ sezione.Area }}</td>
+                                 <td>{{ sezione.MomentoInerzia }}</td>
+                                 <td>{{ sezione.Altezza }}</td>
+                                 <td>{{ sezione.FattoreTaglio }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editSezione(sezione.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delSezione(sezione.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoSezione"  ng-submit="addSezione()" class="form-horizontal">
+                           <div id="IdGruopSezione" class="form-group nascosto">
+                              <label for="IdSezione" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdSezione" type="text" ng-model="IdSezione" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="NomeSezione" class="control-label col-sm-2" >{{T.Nome}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="NomeSezione" type="text" ng-model="NomeSezione" class="form-control input-sm"  placeholder="{{T.Nome}}" required maxlength="100"/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="A" class="control-label col-sm-2">A</label>
+                              <div class ="col-sm-10">
+                                 <input id="A" type="number" ng-model="A" class="form-control input-sm"  step="any" placeholder="{{T.Area}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="I" class="control-label col-sm-2">I</label>
+                              <div class ="col-sm-10">
+                                 <input id="I" type="number" ng-model="I" class="form-control input-sm"  step="any" placeholder="{{T.MomentoInerzia}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="h" class="control-label col-sm-2">h<sub>T</sub></label>
+                              <div class ="col-sm-10">
+                                 <input id="h" type="number" ng-model="h" class="form-control input-sm"  step="any" placeholder="{{T.Altezza}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="xi" class="control-label col-sm-2">&xi;</label>
+                              <div class ="col-sm-10">
+                                 <input id="xi" type="number" ng-model="xi" class="form-control input-sm"  step="any" placeholder="{{T.FattoreTaglio}}" required/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-2 col-sm-10">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditSezione()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="aste">
+                        <h2>{{T.Aste}}</h2>
+                        <!--   TODO: gestire eliminazione
+                        TODO: gestire modifica -->
+                        <table class="table table-striped table-hover" >
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.Nodo}} 1</th>
+                                 <th>{{T.Nodo}} 2</th>
+                                 <th>{{T.Materiale}}</th>
+                                 <th>{{T.Sezione}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="asta in problema.elencoAste">
+                                 <td id="idAsta{{ asta.Id }}">{{ asta.Id }} </td>
+                                 <td>{{ asta.Nodo1.getDescription() }}</td>
+                                 <td>{{ asta.Nodo2.getDescription() }}</td>
+                                 <td>{{ asta.Materiale.Nome }}</td>
+                                 <td>{{ asta.Sezione.Nome }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editAsta(asta.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delAsta(asta.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoAsta" ng-submit="addAsta()" class="form-horizontal">
+                           <div id="IdGruopAsta" class="form-group nascosto">
+                              <label for="IdAsta" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdAsta" type="text" ng-model="IdAsta" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodo1Asta" class="control-label col-sm-4">{{T.Nodo}} 1</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodo1Asta" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodo2Asta" class="control-label col-sm-4">{{T.Nodo}} 2</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodo2Asta" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}} </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="materialeAsta" class="control-label col-sm-4">{{T.Materiale}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="materialeAsta" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="materiale in problema.elencoMateriali" value="{{materiale.Id}}"> {{ materiale.Nome }}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="sezioneAsta" class="control-label col-sm-4">{{T.Sezione}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="sezioneAsta" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="sezione in problema.elencoSezioni" value="{{sezione.Id}}"> {{ sezione.Nome }}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditAsta()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="vincoli">
+                        <h2>{{T.Vincolirigidi}}</h2>
+                        <table class="table table-striped table-hover">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.Nodo}}</th>
+                                 <th>{{T.Direzione}} {{T.vincolo}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="vincolo in problema.elencoVincoli">
+                                 <td id="idVincolo{{ vincolo.Id }}">{{ vincolo.Id }} </td>
+                                 <td>{{ vincolo.Nodo.getDescription() }}</td>
+                                 <td>{{ vincolo.Direzione.Descrizione }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editVincolo(vincolo.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delVincolo(vincolo.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoVincolo" ng-submit="addVincolo()" class="form-horizontal">
+                           <div id="IdGruopVincolo" class="form-group nascosto">
+                              <label for="IdVincolo" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdVincolo" type="text" ng-model="IdVincolo" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodoVincolo" class="control-label col-sm-4">{{T.Nodo}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodoVincolo" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="direzioneVincolo" class="control-label col-sm-4">{{T.Direzione}} {{T.vincolo}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="direzioneVincolo" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="direzione in costanti.elencoDirezioni" value="{{direzione.Id}}"> {{ direzione.Descrizione }}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditVincolo()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="asservimenti">
+                        <h2>{{T.Asservimenti}}</h2>
+                        <table class="table table-striped table-hover">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.NodoMaster}}</th>
+                                 <th>{{T.NodoSlave}}</th>
+                                 <th>{{T.Direzione}} {{T.asservimento}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="asservimento in problema.elencoAsservimenti">
+                                 <td id="idAsservimento{{ asservimento.Id }}">{{ asservimento.Id }} </td>
+                                 <td>{{ asservimento.NodoMaster.getDescription() }}</td>
+                                 <td>{{ asservimento.NodoSlave.getDescription() }}</td>
+                                 <td>{{ asservimento.Direzione.Descrizione }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editAsservimento(asservimento.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delAsservimento(asservimento.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoAsservimento" ng-submit="addAsservimento()" class="form-horizontal">
+                           <div id="IdGruopAsservimento" class="form-group nascosto">
+                              <label for="IdAsservimento" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdAsservimento" type="text" ng-model="IdAsservimento" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodo1Asservimento" class="control-label col-sm-4">{{T.NodoMaster}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodo1Asservimento" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodo2Asservimento" class="control-label col-sm-4">{{T.NodoSlave}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodo2Asservimento" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}} </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="direzioneAsservimento" class="control-label col-sm-4">{{T.Direzione}} {{T.asservimento}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="direzioneAsservimento" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="direzione in costanti.elencoDirezioni" value="{{direzione.Id}}"> {{ direzione.Descrizione }}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditAsservimento()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="nodali">
+                        <h2>{{T.Carichinodali}}</h2>
+                        <table class="table table-striped table-hover">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.Nodo}}</th>
+                                 <th>{{T.Direzionecarico}}</th>
+                                 <th>{{T.Intensita}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="nodale in problema.elencoNodali">
+                                 <td id="idNodale{{ nodale.Id }}">{{ nodale.Id }} </td>
+                                 <td>{{ nodale.Nodo.getDescription() }}</td>
+                                 <td>{{ nodale.Direzione.Descrizione }}</td>
+                                 <td>{{ nodale.Intensita }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editNodale(nodale.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delNodale(nodale.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoNodale" ng-submit="addNodale()" class="form-horizontal">
+                           <div id="IdGruopNodale" class="form-group nascosto">
+                              <label for="IdNodale" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdNodale" type="text" ng-model="IdNodale" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="nodoNodale" class="control-label col-sm-4">{{T.Nodo}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="nodoNodale" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="direzioneNodale" class="control-label col-sm-4">{{T.Direzione}} {{T.carico}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="direzioneNodale" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="direzione in costanti.elencoDirezioni" value="{{direzione.Id}}"> {{ direzione.Descrizione }}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="intensitaNodale" class="control-label col-sm-4">{{ T.Intensita }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="intensitaNodale" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditNodale()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="distribuiti">
+                        <h2>{{T.Carichi}} {{T.distribuiti}}</h2>
+                        <table class="table table-striped table-hover">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.Asta}}</th>
+                                 <th>{{T.CaricoOrizzontale}}</th>
+                                 <th>{{T.CaricoVerticalePrimoNodo}}</th>
+                                 <th>{{T.CaricoVerticaleSecondoNodo}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="distribuito in problema.elencoDistribuiti">
+                                 <td id="idDistribuito{{ distribuito.Id }}">{{ distribuito.Id }} </td>
+                                 <td>{{ distribuito.Asta.getDescription() }}</td>
+                                 <td>{{ distribuito.Orizzontale }}</td>
+                                 <td>{{ distribuito.VerticaleInizio }}</td>
+                                 <td>{{ distribuito.VerticaleFine }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editDistribuito(distribuito.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delDistribuito(distribuito.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoDistribuito" ng-submit="addDistribuito()" class="form-horizontal">
+                           <div id="IdGruopDistribuito" class="form-group nascosto">
+                              <label for="IdDistribuito" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdDistribuito" type="text" ng-model="IdDistribuito" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="astaDistribuito" class="control-label col-sm-4">{{T.Asta}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="astaDistribuito" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="asta in problema.elencoAste" value="{{asta.Id}}"> {{asta.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="CaricoOrizzontaleDistribuito" class="control-label col-sm-4">{{ T.CaricoOrizzontale }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="CaricoOrizzontaleDistribuito" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="CaricoVerticalePrimoNodoDistribuito" class="control-label col-sm-4">{{ T.CaricoVerticalePrimoNodo }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="CaricoVerticalePrimoNodoDistribuito" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="CaricoVerticaleSecondoNodoDistribuito" class="control-label col-sm-4">{{ T.CaricoVerticaleSecondoNodo }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="CaricoVerticaleSecondoNodoDistribuito" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditDistribuito()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="termici">                        
+                        <h2>{{T.Carichi}} {{T.termici}}</h2>
+                        <h3>{{T.TODO}}</h3>
+                        <table class="table table-striped table-hover hidden" >
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>{{T.Asta}}</th>
+                                 <th>{{T.CaricoTermicoSuperiore}}</th>
+                                 <th>{{T.CaricoTermicoInferiore}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="termico in problema.elencoTermici">
+                                 <td id="idTermico{{ termico.Id }}">{{ termico.Id }} </td>
+                                 <td>{{ termico.Asta.getDescription() }}</td>
+                                 <td>{{ termico.CaricoTermicoSuperiore }}</td>
+                                 <td>{{ termico.CaricoTermicoInferiore }}</td>
+                                 <td>
+                                    <button type="button" class="btn btn-xs btn-warning editBtn" ng-click="editTermico(termico.Id)"  data-toggle="tooltip" title="{{T.Modifica}}"><span class="glyphicon glyphicon-pencil" ></span></button>
+                                    <button type="button" class="btn btn-xs btn-danger delBtn" ng-click="delTermico(termico.Id)"  data-toggle="tooltip" title="{{T.Elimina}}"><span class="glyphicon glyphicon-remove" ></span></button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <form id="inserimentoTermico" ng-submit="addTermico()" class="form-horizontal hidden">
+                           <div id="IdGruopTermico" class="form-group nascosto">
+                              <label for="IdTermico" class="control-label col-sm-2 " >{{T.Id}}</label>
+                              <div class ="col-sm-10">
+                                 <input id="IdTermico" type="text" ng-model="In.Termico.Id" class="form-control input-sm "  placeholder="{{T.Id}}" required maxlength="10"  value="-1" disabled/>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="astaTermico" class="control-label col-sm-4">{{T.Asta}}</label>
+                              <div class ="col-sm-8">
+                                 <select class="form-control input-sm" ng-model="In.Termico.Asta.Id" required>
+                                    <option value="" selected >{{T.Scegli}}</option>
+                                    <option ng-repeat="asta in problema.elencoAste" value="{{asta.Id}}"> {{asta.getDescription()}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="CaricoTermicoSuperioreTermico" class="control-label col-sm-4">{{ T.CaricoTermicoSuperiore }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="In.Termico.CaricoTermicoSuperiore" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="CaricoTermicoInferioreTermico" class="control-label col-sm-4">{{ T.CaricoTermicoInferiore }}</label>
+                              <div class ="col-sm-8">
+                                 <input type="number"  class="form-control input-sm" ng-model="In.Termico.CaricoTermicoInferiore" step="any" required />
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="submit" class="btn  btn-primary addBtn"  data-toggle="tooltip" title="{{T.Aggiungi}}"><span class="glyphicon glyphicon-plus" ></span></button>
+                                 <button type="button" class="btn  btn-warning undoBtn nascosto" ng-click="undoEditTermico()" data-toggle="tooltip" title="{{T.Annulla}}"><span class="glyphicon glyphicon-trash" ></span></button>
+                                 <button type="submit" class="btn  btn-success saveBtn nascosto"  data-toggle="tooltip" title="{{T.Salva}}"><span class="glyphicon glyphicon-ok" ></span></button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="tab-pane fade" id="salvaCarica">
+                        <h3><span class="glyphicon glyphicon-cog"></span> {{T.Opzioni}}</h3>
+                        <form id="opzioni" class="form-horizontal" >
+                           <div class="form-group">
+                              <label for="parametri.lingua" class="control-label col-sm-6"><span class="glyphicon glyphicon-globe"></span> {{ T.Lingua }}</label>
+                              <div class ="col-sm-6">{{T.NotAvailable}}
+                                 <select id="parametri.lingua" class=" input-sm" ng-model="parametri.lingua" ng-change="changeLanguage()" disabled style="display:none;">
+                                    <option ng-repeat="lingua in parametri.linguedisponibili" value="{{lingua}}"> {{lingua}}  </option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="parametri.puntiDiscretizzazione" class="control-label col-sm-6">{{ T.Puntididiscretizzazione }}</label>
+                              <div class ="col-sm-6">
+                                 <input type="number"  class="form-control input-sm" ng-model="parametri.puntiDiscretizzazione" step="any" required />
+                              </div>
+                           </div>
+                        </form>
+
+                        
+                        <h3><span class="glyphicon glyphicon-floppy-save"></span> {{T.Salva}}</h3>
+                        {{T.SalvaISTRUZIONI}}
+                        <form id="inserimentoAsta" >
+                           <div id="downloadJSON" class="form-group">
+                              <!-- TODO: automatizzare generazione link e download -->
+                              <br/>
+                              <div class="col-sm-offset-4 col-sm-8">
+                                 <button type="button" class="btn  btn-primary" ng-click="preparaJSON()" >{{T.Esporta}} JSON</button>
+                              </div>
+                           </div>
+                        </form>
+                        <h3><span class="glyphicon glyphicon-floppy-open" ></span> {{T.Carica}}</h3>
+                        <form id="form_carica" ng-submit="caricaJSON()"  >
+                           <!--    TODO: gestire upload diretto senza submit
+                           TODO: validazione input -->
+                           <div class="form-group" >
+                              <label for="JSONFile" class="col-sm-6">{{T.FileJSON}}</label>
+                              <input type="file" id="JSONFile"  class="col-sm-6" accept="application/json" />
+                           </div>
+                           <i> <a href="javascript:$('#json_Input').show();">{{T.Problemicaricamento}}</a></i>
+                           <div id="json_Input" class="form-group" style="display:none" >
+                              <label for="jsontext">{{T.incollJSON}}</label>
+                              <input type="text" class="form-control" placeholder="JSON"  ng-model="jsontext" id="jsontext" required />
+                           </div>
+                           <div class="col-sm-offset-4 col-sm-8">
+                              <button type="submit" class="btn  btn-primary" >{{T.Carica}} JSON</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <form  id="risolvi" ng-submit="risolvi()">
+               <button type="submit" class="btn  btn-danger btn-lg " ><span class="glyphicon glyphicon-play"></span> {{T.Risolvi}}</button>
+            </form>
+            <div id="metaGrafica" class="col-md-8 altoTutto">
+               <ul id="GraphmyTab" class="nav nav-tabs">
+                  <li class="active"><a href="#geometria" data-toggle="tab">{{T.Grafico}}</a></li>
+                  <li class="dropdown">
+                     <a  id="Valori" class="dropdown-toggle" data-toggle="dropdown">{{T.Tabellerisultati}} <b class="caret"></b></a>
+                     <ul class="dropdown-menu" role="menu" aria-labelledby="Deformata">
+                        <li><a href="#DeformataValori" tabindex="-1" data-toggle="tab">{{T.Spostamentinodali}}</a></li>
+                        <li><a href="#AzioneValori" tabindex="-1" data-toggle="tab">{{T.Azioneassiale}}</a></li>
+                        <li><a href="#TaglioValori" tabindex="-1" data-toggle="tab">{{T.Taglio}}</a></li>
+                        <li><a href="#MomentoValori" tabindex="-1" data-toggle="tab">{{T.Momentoflettente}}</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="#esporta" data-toggle="tab">{{T.Esporta}}</a></li>
+               </ul>
+               <!--  TODO: reciclare codice geometrie per altri grafici -->
+               <div id="GraphTabContent" class="tab-content alto90">
+                  <div class="tab-pane fade in active" id="geometria" style="width: 100%; height: 100%;">
+                   <!--  <div ng-include="'partials/svg.html'" style="height:80%">
+                     </div>
+                     <div ng-include="'partials/opzioniGrafico.html'">
+                     </div>
+                  -->
+                     <div  style="height:80%">
+                        <div id="chart_div" style="width: 100%; height: 100%;"></div>    
+                     </div>
+                    <!--    <script>
+                           document.getElementById("#chart_div").height = document.getElementById("#GraphTabContent").height
+                        </script> 
+-->
+                     <div id="GraficoRisultatiSelect"  style="display:none">
+                        <div class="form-group" >
+                           <label for="grafica.astaRisultatiGrafico" class="control-label col-sm-4">{{T.Asta}}</label>
+                           <div class ="col-sm-8">
+                              <select class="form-control input-sm" ng-model="grafica.astaRisultatiGrafico"  ng-change="disegnaDesormata()">
+                                 <option ng-repeat="asta in problema.elencoAste" value="{{asta.Id}}"> {{asta.getDescription()}}  </option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group" >
+                           <label for="grafica.tipoRisultatiGrafico" class="control-label col-sm-4">{{T.Tipografico}}</label>
+                           <div class ="col-sm-8">
+                              <select class="form-control input-sm" ng-model="grafica.tipoRisultatiGrafico" ng-change="disegnaDesormata()">
+                                 <option ng-repeat="tipi in grafica.elencoTipiGrafico" value="{{tipi.k}}"> {{tipi.v}}  </option>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+
+                  </div>
+                  <div class="tab-pane fade" id="DeformataValori">
+                     <h2>{{T.Spostamentinodali}}</h2>                     
+                     <div  style="height:80%">
+                        <div id="Deformatenodali_Table_div" style="width: 100%; height: 100%;"></div>  
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="AzioneValori">
+                     <h2>{{T.Azioneassiale}}</h2>
+                        <div id="Azioneassiale_Table_div" style="width: 100%; height: 100%;"></div>  
+
+                  </div>
+                  <div class="tab-pane fade" id="TaglioValori">
+                     <h2>{{T.Taglio}}</h2>
+                        <div id="Taglio_Table_div" style="width: 100%; height: 100%;"></div>  
+                  </div>
+                  <div class="tab-pane fade" id="MomentoValori">
+                     <h2>{{T.Momentoflettente}}</h2>
+                        <div id="Momento_Table_div" style="width: 100%; height: 100%;"></div>  
+                  </div>
+               <!--
+                  <div class="tab-pane fade" id="DeformataValori">
+                     <h2>{{T.Deformatenodali}}</h2>
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.CoordinataX}}</th>
+                              <th>{{T.CoordinataY}}</th>
+                              <th>{{T.DeformataX}}</th>
+                              <th>{{T.DeformataY}}</th>
+                              <th>{{T.Rotazione}}</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="nodo in soluzione.elencoNodi">
+                              <td>{{ nodo.Nodo.Id }}</td>
+                              <td>{{ nodo.Nodo.Punto.CoorX }}</td>
+                              <td>{{ nodo.Nodo.Punto.CoorY }}</td>
+                              <td>{{ nodo.DeformataX }}</td>
+                              <td>{{ nodo.DeformataY }}</td>
+                              <td>{{ nodo.Rotazione }}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="tab-pane fade" id="AzioneValori">
+                     <h2>{{T.Azioneassiale}}</h2>
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th>{{T.Asta}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Azioneassiale}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Azioneassiale}}</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="asta in soluzione.elencoAste">
+                              <td>{{ asta.Asta.Id }}</td>
+                              <td>{{ asta.Nodo1.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo1.Azione }}</td>
+                              <td>{{ asta.Nodo2.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo2.Azione }}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="tab-pane fade" id="TaglioValori">
+                     <h2>{{T.Taglio}}</h2>
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th>{{T.Asta}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Taglio}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Taglio}}</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="asta in soluzione.elencoAste">
+                              <td>{{ asta.Asta.Id }}</td>
+                              <td>{{ asta.Nodo1.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo1.Taglio }}</td>
+                              <td>{{ asta.Nodo2.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo2.Taglio }}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="tab-pane fade" id="MomentoValori">
+                     <h2>{{T.Momentoflettente}}</h2>
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th>{{T.Asta}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Momentoflettente}}</th>
+                              <th>{{T.Nodo}}</th>
+                              <th>{{T.Momentoflettente}}</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="asta in soluzione.elencoAste">
+                              <td>{{ asta.Asta.Id }}</td>
+                              <td>{{ asta.Nodo1.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo1.Momento }}</td>
+                              <td>{{ asta.Nodo2.Nodo.Id }}</td>
+                              <td>{{ asta.Nodo2.Momento }}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+               </div>-->
+                  <div class="tab-pane fade" id="esporta">
+                     <h2>{{T.Esporta}}</h2>
+                     
+                     <form id="esportaSoluzione" ng-submit="esportaSoluzione()" class="form-horizontal">
+                        
+                        <div class="form-group">
+                           
+                           <label for="optionsEsporta" class="col-sm-3 control-label">{{T.Formatooutput}}</label>
+                           
+                           
+                           <div class="col-sm-9">
+                              <div class="radio">
+                                 <label>
+                                    <input type="radio" ng-model="optionsEsporta" name="optionsEsporta" id="optJSON" value="JSON" >
+                                    JSON
+                                 </label>
+                              </div>
+                              <div class="radio">
+                                 <label>
+                                    <input type="radio" ng-model="optionsEsporta" name="optionsEsporta" id="optCSV" value="CSV" disabled>
+                                    CSV ({{T.NotAvailable}})
+                                 </label>
+                              </div>
+                              <div class="radio">
+                                 <label>
+                                    <input type="radio" ng-model="optionsEsporta" name="optionsEsporta" id="optXML" value="XML" disabled>
+                                    XML ({{T.NotAvailable}})
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        
+                        <div class="form-group">
+                                                      
+                           <label for="EsportazioneSpostamenti" class="col-sm-3 control-label">{{T.IncludiInOut}}:</label>
+                           
+                           <div class="col-sm-9">
+                              <div class="checkbox">
+                                 <label>
+                                    <input id="EsportazioneSpostamenti" type="checkbox" ng-model="EsportazioneSpostamenti"  /> {{T.Spostamentinodali}}
+                                 </label>
+                              </div>
+                              <div class="checkbox">
+                                 <label>
+                                    <input id="EsportazioneAzioni" type="checkbox" ng-model="EsportazioneAzioni"  /> {{T.Azioniinterne}}
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        <div  class="col-sm-offset-3 col-sm-9">
+                           <button type="submit" class="btn  btn-primary " >{{T.Esporta}}</button>
+                        </div>
+                        
+                        
+                        
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+<!--USERVOICE
+<script>
+// Include the UserVoice JavaScript SDK (only needed once on a page)
+UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/ufZ8KPK08lL0diKbHXrVA.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+//
+// UserVoice Javascript SDK developer documentation:
+// https://www.uservoice.com/o/javascript-sdk
+//
+
+// Set colors
+UserVoice.push(['set', {
+  accent_color: '#448dd6',
+  trigger_color: 'white',
+  trigger_background_color: 'rgba(46, 49, 51, 0.6)'
+}]);
+
+// Identify the user and pass traits
+// To enable, replace sample data with actual user traits and uncomment the line
+UserVoice.push(['identify', {
+  //email:      'john.doe@example.com', // User’s email address
+  //name:       'John Doe', // User’s real name
+  //created_at: 1364406966, // Unix timestamp for the date the user signed up
+  //id:         123, // Optional: Unique id of the user (if set, this should not change)
+  //type:       'Owner', // Optional: segment your users by type
+  //account: {
+  //  id:           123, // Optional: associate multiple users with a single account
+  //  name:         'Acme, Co.', // Account name
+  //  created_at:   1364406966, // Unix timestamp for the date the account was created
+  //  monthly_rate: 9.99, // Decimal; monthly rate of the account
+  //  ltv:          1495.00, // Decimal; lifetime value of the account
+  //  plan:         'Enhanced' // Plan name for the account
+  //}
+}]);
+
+// Add default trigger to the bottom-right corner of the window:
+UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
+
+// Or, use your own custom trigger:
+//UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
+
+// Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+UserVoice.push(['autoprompt', {}]);
+</script>
+<!--USERVOICE-->
+
+            <script src="js/libs/jquery-2.1.0.min.js"></script>
+            <script src="js/libs/bootstrap.min.js"></script>
+            <script src="js/libs/ui-bootstrap-tpls-0.10.0.min.js"></script>
+            <script src="js/libs/FileSaver.min.js"></script>
+            <script src="js/entita.min.js"></script>
+            <script src="js/utility.min.js"></script>
+            <script src="js/calcolo.min.js"></script>
+            <script src="js/app.min.js"></script>
+            <script src="js/controllers.min.js"></script>
+            <script src="js/libs/toastr.min.js"></script>
+
+         <!-- GOOGLE -->
+            <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+
+
+
+            <script src="js/GChart.min.js"></script>
+
+            <script src="js/lastScript.min.js"></script>
+         </body>
+      </html>

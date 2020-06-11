@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>JStructure</title>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- In production use:
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+      -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+  </head>
+  <body ng-app="JStructure" ng-controller="Controller" id="pagina">
+    <div class="">
+      <div class="col-md-4">
+        <div class="">
+          <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+            <li class="dropdown">
+              <a href="#" id="DropGeometria" class="dropdown-toggle" data-toggle="dropdown">Geometria <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="Geometria">
+                <li><a href="#nodi" tabindex="-1" data-toggle="tab">Nodi</a></li>
+                <li><a href="#materiali" tabindex="-1" data-toggle="tab">Materiali</a></li>
+                <li><a href="#sezioni" tabindex="-1" data-toggle="tab">Sezioni</a></li>
+                <li><a href="#aste" tabindex="-1" data-toggle="tab">Aste</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" id="DropVincoli" class="dropdown-toggle" data-toggle="dropdown">Condizioni <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="Vincoli">
+                <li><a href="#vincoli" tabindex="-1" data-toggle="tab">Vincoli rigidi</a></li>
+                <li><a href="#asservimenti" tabindex="-1" data-toggle="tab">Asserimenti</a></li>
+                <li><a href="#nodali" tabindex="-1" data-toggle="tab">Carichi nodali</a></li>
+                <li><a href="#distribuiti" tabindex="-1" data-toggle="tab">Carichi distribuiti</a></li>
+              </ul>
+            </li>
+            <li><a href="#salvaCarica" data-toggle="tab">I/O</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="home">
+              <h2>JStructure</h2>
+              <p>&copy; Michele Bruni</p>
+              <p></p>
+            </div>
+            <div class="tab-pane fade" id="nodi">
+              <h2>Nodi</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica nodi
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Coordinata X</th>
+                    <th>Coordinata Y</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="nodo in problema.elencoNodi">
+                    <td>{{ nodo.Id }}</td>
+                    <td>{{ nodo.Punto.CoorX }}</td>
+                    <td>{{ nodo.Punto.CoorY }}</td>
+                    <td/>
+                  </tr>
+                  <tr class="info" >
+                    <form id="inserimentoNodo" ng-submit="addNodo()">
+                      <td></td>
+                      <td>
+                        <input id="nodoXcoor" type="number" ng-model="coordinataX" class="form-control " required />
+                      </td>
+                      <td><input id="nodoYcoor" type="number" ng-model="coordinataY" class="form-control" required/></td>
+                      <td><button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                    </form>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane fade" id="materiali">
+              <h2>Materiali</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica nodi
+              TODO: inserire toolbox con info variabili
+              TODO: validazione regex logiche dei campi
+              TODO: colopicker per la grafica
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>E</th>
+                    <th>&nu;</th>
+                    <th>&alpha;<sub>T</sub></th>
+                    <th>&gamma;</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="materiale in problema.elencoMateriali">
+                    <td>{{ materiale.Id }} - {{ materiale.Nome }}</td>
+                    <td>{{ materiale.ModuloYoung }}</td>
+                    <td>{{ materiale.ModuloPoisson }}</td>
+                    <td>{{ materiale.CoeffDilatazioneTerm }}</td>
+                    <td>{{ materiale.PesoSpecifico }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <form id="inserimentoMateriale"  ng-submit="addMateriale()" class="form-horizontal">
+                <div class="form-group">
+                  <label for="NomeMateriale" class="control-label col-sm-2" >Nome</label>
+                  <div class ="col-sm-10">
+                    <input id="NomeMateriale" type="text" ng-model="NomeMateriale" class="form-control input-sm"  placeholder="Nome" required maxlength="10"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="E" class="control-label col-sm-2">E</label>
+                  <div class ="col-sm-10">
+                    <input id="E" type="number" ng-model="E" class="form-control input-sm"  step="any" placeholder="Modulo di Young" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="nu" class="control-label col-sm-2">&nu;</label>
+                  <div class ="col-sm-10">
+                    <input id="nu" type="number" ng-model="nu" class="form-control input-sm"  step="any" placeholder="Modulo di Poisson" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="alfa" class="control-label col-sm-2">&alpha;<sub>T</sub></label>
+                  <div class ="col-sm-10">
+                    <input id="alfa" type="number" ng-model="alfa" class="form-control input-sm"  step="any" placeholder="Coefficiente di dilatazione termica" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="gamma" class="control-label col-sm-2">&gamma;</label>
+                  <div class ="col-sm-10">
+                    <input id="gamma" type="number" ng-model="gamma" class="form-control input-sm"  step="any" placeholder="Peso specifico" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="sezioni">
+              <h2>Sezioni</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica nodi
+              TODO: inserire toolbox con info variabili
+              TODO: validazione regex logiche dei campi
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>A</th>
+                    <th>I</th>
+                    <th>h</th>
+                    <th>&chi;</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="sezione in problema.elencoSezioni">
+                    <td>{{ sezione.Id }} - {{ sezione.Nome }}</td>
+                    <td>{{ sezione.Area }}</td>
+                    <td>{{ sezione.MomentoInerzia }}</td>
+                    <td>{{ sezione.Altezza }}</td>
+                    <td>{{ sezione.FattoreTaglio }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <form id="inserimentoSezione"  ng-submit="addSezione()" class="form-horizontal">
+                <div class="form-group">
+                  <label for="NomeSezione" class="control-label col-sm-2" >Nome</label>
+                  <div class ="col-sm-10">
+                    <input id="NomeSezione" type="text" ng-model="NomeSezione" class="form-control input-sm"  placeholder="Nome" required maxlength="10"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="A" class="control-label col-sm-2">A</label>
+                  <div class ="col-sm-10">
+                    <input id="A" type="number" ng-model="A" class="form-control input-sm"  step="any" placeholder="Area" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="I" class="control-label col-sm-2">I</label>
+                  <div class ="col-sm-10">
+                    <input id="I" type="number" ng-model="I" class="form-control input-sm"  step="any" placeholder="Momento d'Inerzia" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="h" class="control-label col-sm-2">h<sub>T</sub></label>
+                  <div class ="col-sm-10">
+                    <input id="h" type="number" ng-model="h" class="form-control input-sm"  step="any" placeholder="Altezza" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="xi" class="control-label col-sm-2">&xi;</label>
+                  <div class ="col-sm-10">
+                    <input id="xi" type="number" ng-model="xi" class="form-control input-sm"  step="any" placeholder="Fattore di Taglio" required/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="aste">
+              <h2>Aste</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nodo 1</th>
+                    <th>Nodo 2</th>
+                    <th>Materiale</th>
+                    <th>Sezione</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="asta in problema.elencoAste">
+                    <td>{{ asta.Id }} </td>
+                    <td>{{ asta.Nodo1.getDescription() }}</td>
+                    <td>{{ asta.Nodo2.getDescription() }}</td>
+                    <td>{{ asta.Materiale.Nome }}</td>
+                    <td>{{ asta.Sezione.Nome }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <form id="inserimentoAsta" ng-submit="addAsta()" class="form-horizontal">
+                <div class="form-group">
+                  <label for="nodo1Asta" class="control-label col-sm-4">Nodo 1</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="nodo1Asta" required>
+                      <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="nodo2Asta" class="control-label col-sm-4">Nodo 2</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="nodo2Asta" required>
+                      <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}} </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="materialeAsta" class="control-label col-sm-4">Materiale</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="materialeAsta" required>
+                      <option ng-repeat="materiale in problema.elencoMateriali" value="{{materiale.Id}}"> {{ materiale.Nome }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="sezioneAsta" class="control-label col-sm-4">Sezione</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="sezioneAsta" required>
+                      <option ng-repeat="sezione in problema.elencoSezioni" value="{{sezione.Id}}"> {{ sezione.Nome }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="vincoli">
+              <h2>Vincoli rigidi</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nodo</th>
+                    <th>Direzione vincolo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="vincolo in problema.elencoVincoli">
+                    <td>{{ vincolo.Id }} </td>
+                    <td>{{ vincolo.Nodo.getDescription() }}</td>
+                    <td>{{ vincolo.Direzione.Descrizione }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <form id="inserimentoAsta" ng-submit="addVincolo()" class="form-horizontal">
+                <div class="form-group">
+                  <label for="nodoVincolo" class="control-label col-sm-4">Nodo</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="nodoVincolo" required>
+                      <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="direzioneVincolo" class="control-label col-sm-4">Direzione vincolo</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="direzioneVincolo" required>
+                      <option ng-repeat="direzione in costanti.elencoDirezioni" value="{{direzione.Id}}"> {{ direzione.Descrizione }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="asservimenti">
+              <h2>Asservimenti</h2>
+              TODO...
+            </div>
+            <div class="tab-pane fade" id="nodali">
+              <h2>Carichi nodali</h2>
+              TODO: gestire eliminazione
+              TODO: gestire modifica
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nodo</th>
+                    <th>Direzione carico</th>
+                    <th>Intensità</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="nodale in problema.elencoNodali">
+                    <td>{{ nodale.Id }} </td>
+                    <td>{{ nodale.Nodo.getDescription() }}</td>
+                    <td>{{ nodale.Direzione.Descrizione }}</td>
+                    <td>{{ nodale.Intensita }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <form id="inserimentoAsta" ng-submit="addNodale()" class="form-horizontal">
+                <div class="form-group">
+                  <label for="nodoNodale" class="control-label col-sm-4">Nodo</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="nodoNodale" required>
+                      <option ng-repeat="nodo in problema.elencoNodi" value="{{nodo.Id}}"> {{nodo.getDescription()}}  </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="direzioneNodale" class="control-label col-sm-4">Direzione vincolo</label>
+                  <div class ="col-sm-8">
+                    <select class="form-control input-sm" ng-model="direzioneNodale" required>
+                      <option ng-repeat="direzione in costanti.elencoDirezioni" value="{{direzione.Id}}"> {{ direzione.Descrizione }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="intensitaNodale" class="control-label col-sm-4">Intensità</label>
+                  <div class ="col-sm-8">
+                    <input type="number"  class="form-control input-sm" ng-model="intensitaNodale" step="any" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn  btn-primary" >Aggiungi</button></td>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="distribuiti">
+              <h2>Carichi distribuiti</h2>
+              TODO...
+            </div>
+            <div class="tab-pane fade" id="salvaCarica">
+              <p>
+              <div id="downloadJSON">
+                TODO: automatizzare generazione link e download
+                <button type="button" class="btn  btn-primary" ng-click="preparaJSON()" >Prepara JSON</button>
+              </div>
+              <form  ng-submit="caricaJSON()">
+                TODO: gestire upload diretto senza submit
+                TODO: validazione input
+                <div class="form-group">
+                  <label for="JSONFile">JSon input file</label>
+                  <input type="file" id="JSONFile">
+                </div>
+                <input type="text" class="form-control" placeholder="JSON"  ng-model="jsontext" id="jsontext" required value =" "/>
+                <button type="submit" class="btn  btn-primary" >Leggi JSON</button>
+              </form>
+              </p>
+            </div>
+          </div>
+        </div>
+        <form  ng-submit="risolvi()">
+          <button type="submit" class="btn  btn-primary" >Risolvi</button>
+        </form>
+      </div>
+      <div class="col-md-8">
+        <ul id="myTab" class="nav nav-tabs">
+          <li class="active"><a href="#geometria" data-toggle="tab">Geometria</a></li>
+          <li class="dropdown">
+            <a href="#" id="DropDeformata" class="dropdown-toggle" data-toggle="dropdown">Deformata <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="Deformata">
+              <li><a href="#DeformataGrafico" tabindex="-1" data-toggle="tab">Grafico</a></li>
+              <li><a href="#DeformataValori" tabindex="-1" data-toggle="tab">Valori</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" id="DropAzione" class="dropdown-toggle" data-toggle="dropdown">Azione Assiale <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="Azione">
+              <li><a href="#AzioneGrafico" tabindex="-1" data-toggle="tab">Grafico</a></li>
+              <li><a href="#AzioneValori" tabindex="-1" data-toggle="tab">Valori</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" id="DropTaglio" class="dropdown-toggle" data-toggle="dropdown">Taglio <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="Taglio">
+              <li><a href="#TaglioGrafico" tabindex="-1" data-toggle="tab">Grafico</a></li>
+              <li><a href="#TaglioValori" tabindex="-1" data-toggle="tab">Valori</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" id="DropMomento" class="dropdown-toggle" data-toggle="dropdown">Momento <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="Momento">
+              <li><a href="#MomentoGrafico" tabindex="-1" data-toggle="tab">Grafico</a></li>
+              <li><a href="#MomentoValori" tabindex="-1" data-toggle="tab">Valori</a></li>
+            </ul>
+          </li>
+          <li><a href="#momento" data-toggle="tab">Esporta CSV</a></li>
+        </ul>
+      <!--  TODO: reciclare codice geometrie per altri grafici -->
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade in active" id="geometria">
+            <svg id="SVG_geometria">
+              <defs>
+                <marker id="markerCircle" markerWidth="8" markerHeight="8" refx="5" refy="5">
+                  <circle cx="5" cy="5" r="3" style="stroke: none; fill:#000000;"/>
+                </marker>
+                <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="9" refy="6" orient="auto">
+                  <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #6666ff;" />
+                </marker>
+              </defs>
+              <g id="Nodi">
+                <g ng-repeat="nodo in problema.elencoNodi" id="nodo_{{nodo.Id}}">
+                  <text ng-attr-x="{{ nodo.Punto.CoorX +3 + 15}}" ng-attr-y="{{ nodo.Punto.CoorY -3 + 15}}" fill="black" ng-show="mostraLabelNodo">{{ nodo.Id }}</text>
+                  <circle ng-attr-cx="{{ nodo.Punto.CoorX + 15 }}" ng-attr-cy="{{ nodo.Punto.CoorY  + 15}}" r="2" stroke="black" stroke-width="1" fill="blue" ng-show="mostraNodo"/>
+                </g>
+              </g>
+              <g id="Aste">
+                <g ng-repeat="asta in problema.elencoAste" id="asta_{{asta.Id}}">
+                  <line ng-attr-x1="{{asta.Nodo1.Punto.CoorX  + 15}}" ng-attr-y1="{{asta.Nodo1.Punto.CoorY + 15}}" ng-attr-x2="{{asta.Nodo2.Punto.CoorX + 15}}" ng-attr-y2="{{asta.Nodo2.Punto.CoorY + 15}}" style="stroke:rgb(0,0,255);stroke-width:2" class="asta graphic" ng-show="mostraAsta"/>
+                  <circle ng-attr-cx="{{ (asta.Nodo1.Punto.CoorX  + 15 + asta.Nodo2.Punto.CoorX + 15) / 2 }}" ng-attr-cy="{{ (asta.Nodo1.Punto.CoorY  + 15 + asta.Nodo2.Punto.CoorY + 15) / 2 }}" r="7" stroke="white" stroke-width="1" fill="white"  ng-show="mostraLabelAsta"/>
+                  <text ng-attr-x="{{ (asta.Nodo1.Punto.CoorX  + 15 + asta.Nodo2.Punto.CoorX + 15) / 2 -4}}" ng-attr-y="{{ (asta.Nodo1.Punto.CoorY  + 15 + asta.Nodo2.Punto.CoorY + 15) / 2 +5}}" fill="blue" label="asta"  ng-show="mostraLabelAsta">{{ asta.Id }}</text>
+                </g>
+              </g>
+              <g id="Vincoli" ng-show="mostraVincoli" >
+                <g ng-repeat="vincolo in problema.elencoVincoli" id="vincoli_{{vincolo.Id}}">
+                  <g ng-switch="vincolo.Direzione.Id">
+                    <g ng-switch-when="0">
+                      <polygon ng-attr-points="{{vincolo.Nodo.Punto.CoorX + 15}},{{vincolo.Nodo.Punto.CoorY + 15}} {{vincolo.Nodo.Punto.CoorX + 15 + 10}},{{vincolo.Nodo.Punto.CoorY + 15 + 5}} {{vincolo.Nodo.Punto.CoorX + 15 + 10}},{{vincolo.Nodo.Punto.CoorY + 15 - 5}}" style="fill:white;stroke:red;stroke-width:1" ng-show="mostraVincoli"/>
+                    </g>  
+                    <g ng-switch-when="1">
+                      <polygon ng-attr-points="{{vincolo.Nodo.Punto.CoorX + 15}},{{vincolo.Nodo.Punto.CoorY + 15}} {{vincolo.Nodo.Punto.CoorX + 15+5}},{{vincolo.Nodo.Punto.CoorY + 15+10}} {{vincolo.Nodo.Punto.CoorX + 15-5}},{{vincolo.Nodo.Punto.CoorY + 15+10}}" style="fill:white;stroke:red;stroke-width:1" ng-show="mostraVincoli"/>
+                    </g>  
+                    <g ng-switch-when="2">
+                      <circle ng-attr-cx="{{ vincolo.Nodo.Punto.CoorX + 15 }}" ng-attr-cy="{{ vincolo.Nodo.Punto.CoorY  + 15}}" r="6" stroke="red" stroke-width="1" fill="none" ng-show="mostraNodo" />
+                    </g>  
+                  </g>  
+                </g>
+              </g>
+              <g id="Forze" ng-show="mostraNodali" >
+                <g ng-repeat="nodale in problema.elencoNodali" id="nodale_{{vincolo.Id}}">
+                  <g ng-switch="nodale.Direzione.Id">
+                    <g ng-switch-when="0">                      
+                      <!--TODO: sistemare segno della forza-->
+                      <path d="M{{ (nodale.Nodo.Punto.CoorX + 15) - 50 }},{{ nodale.Nodo.Punto.CoorY + 15 }} L{{ (nodale.Nodo.Punto.CoorX + 15) - 50 }},{{ nodale.Nodo.Punto.CoorY + 15 }} L{{ nodale.Nodo.Punto.CoorX + 15 }},{{ nodale.Nodo.Punto.CoorY + 15 }}" style="stroke: #6666ff; stroke-width: 1px; fill: none;marker-end: url(#markerArrow);" />
+                    </g>  
+                    <g ng-switch-when="1">
+                      <path d="M{{ (nodale.Nodo.Punto.CoorX + 15)}},{{ (nodale.Nodo.Punto.CoorY + 15) - 50 }} L{{ (nodale.Nodo.Punto.CoorX + 15) }},{{ (nodale.Nodo.Punto.CoorY + 15) - 50 }} L{{ nodale.Nodo.Punto.CoorX + 15 }},{{ nodale.Nodo.Punto.CoorY + 15 }}" style="stroke: #6666ff; stroke-width: 1px; fill: none;marker-end: url(#markerArrow);" />
+                    </g>  
+                    <g ng-switch-when="2">
+                      <!--todo-->
+                    </g>  
+                  </g>  
+                </g>
+              </g>
+
+
+            </svg>
+            <div ng-include="'partials/opzioniGrafico.html'">            
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="js/entita.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/calcolo.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/directives.js"></script>
+  </body>
+</html>

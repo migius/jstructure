@@ -1,0 +1,14 @@
+
+# av:AntiHotlink
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_URI} \.(gif|jpe?g|png)$ [NC]
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://([a-z0-9\-\.]*)jstructure\.altervista\.org
+RewriteCond %{REQUEST_URI} !^\/_altervista_ht\/
+RewriteCond %{HTTP_REFERER} !^http://([a-z0-9\-\.]+)google\.
+RewriteRule .*$ http://hl.altervista.org/split.php?http://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+# AntiHotlink
+
+# # av:Toolbar
+SetEnv AV_TOOLBAR 0
